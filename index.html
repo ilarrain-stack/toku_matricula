@@ -4,188 +4,186 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toku Educación - Portal de Matrícula</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --red: #C8102E; --red-dark: #A00D24; --red-light: #F5E6E9;
-    --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-200: #E5E7EB;
-    --gray-300: #D1D5DB; --gray-400: #9CA3AF; --gray-500: #6B7280;
-    --gray-600: #4B5563; --gray-700: #374151; --gray-800: #1F2937;
-    --gray-900: #111827; --green: #059669; --green-light: #D1FAE5;
-    --blue: #2563EB; --blue-light: #DBEAFE;
-  }
-  body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--gray-100); color:var(--gray-800); min-height:100vh; }
-  .screen { display:none; min-height:100vh; }
-  .screen.active { display:flex; flex-direction:column; }
+:root {
+  --primary: #485FC7;
+  --primary-dark: #3850B7;
+  --primary-light: #EEF2FF;
+  --primary-shadow: rgba(72,95,199,0.25);
+  --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB; --gray-400: #9CA3AF; --gray-500: #6B7280;
+  --gray-600: #4B5563; --gray-700: #374151; --gray-800: #1F2937; --gray-900: #111827;
+  --green: #059669; --green-light: #D1FAE5;
+  --toku-dark: #2C3E6B;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--gray-100); color:var(--gray-800); min-height:100vh; }
+.screen { display:none; min-height:100vh; }
+.screen.active { display:flex; flex-direction:column; }
 
-  /* HEADER */
-  .header { background:white; border-bottom:3px solid var(--red); padding:0 2rem; height:60px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-  .header-logo { display:flex; align-items:center; gap:10px; font-size:1.2rem; font-weight:700; color:var(--red); }
-  .header-logo .dot { width:32px; height:32px; background:var(--red); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:1rem; }
-  .header-user { display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--gray-600); }
-  .header-user .avatar { width:34px; height:34px; background:var(--red-light); color:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:0.75rem; }
-  .btn-logout { background:none; border:1px solid var(--gray-300); padding:5px 12px; border-radius:6px; cursor:pointer; font-size:0.78rem; color:var(--gray-600); font-family:inherit; transition:all 0.2s; }
-  .btn-logout:hover { border-color:var(--red); color:var(--red); }
+/* ── HEADER ── */
+.header { background:white; border-bottom:3px solid var(--primary); padding:0 2rem; height:60px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.header-logo { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; color:var(--primary); }
+.logo-box { width:32px; height:32px; background:var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:0.95rem; flex-shrink:0; }
+.header-user { display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--gray-600); }
+.avatar { width:34px; height:34px; background:var(--primary-light); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.75rem; flex-shrink:0; }
+.btn-logout { background:none; border:1px solid var(--gray-300); padding:5px 12px; border-radius:6px; cursor:pointer; font-size:0.78rem; color:var(--gray-600); font-family:inherit; transition:all .2s; }
+.btn-logout:hover { border-color:var(--primary); color:var(--primary); }
 
-  /* LOGIN */
-  .login-screen { background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%); justify-content:center; align-items:center; padding:2rem; }
-  .login-card { background:white; border-radius:14px; padding:2.5rem; width:100%; max-width:400px; box-shadow:0 20px 50px rgba(0,0,0,0.3); }
-  .login-card h1 { text-align:center; color:var(--red); font-size:1.4rem; font-weight:700; margin-bottom:0.3rem; }
-  .login-card .subtitle { text-align:center; color:var(--gray-500); font-size:0.85rem; margin-bottom:1.5rem; }
-  .login-logo { text-align:center; margin-bottom:1.2rem; }
-  .login-logo .dot { width:50px; height:50px; background:var(--red); border-radius:12px; display:inline-flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:1.4rem; }
-  .demo-box { margin-top:1.2rem; background:var(--gray-50); border:1px dashed var(--gray-300); border-radius:8px; padding:0.8rem; font-size:0.75rem; color:var(--gray-500); }
-  .demo-box h4 { font-size:0.78rem; font-weight:600; color:var(--gray-600); margin-bottom:6px; }
-  .demo-box code { background:white; padding:1px 5px; border-radius:3px; font-family:'SF Mono',Monaco,monospace; font-size:0.72rem; border:1px solid var(--gray-200); }
+/* ── LOGIN ── */
+.login-screen { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 55%,#2a3a8f 100%); justify-content:center; align-items:center; padding:2rem; }
+.login-card { background:white; border-radius:16px; padding:2.5rem; width:100%; max-width:400px; box-shadow:0 25px 60px rgba(0,0,0,0.25); }
+.login-logo { text-align:center; margin-bottom:1.2rem; }
+.login-logo .logo-box { width:54px; height:54px; border-radius:14px; display:inline-flex; font-size:1.5rem; box-shadow:0 8px 20px var(--primary-shadow); }
+.login-card h1 { text-align:center; color:var(--primary); font-size:1.4rem; font-weight:700; margin-bottom:.3rem; }
+.login-card .subtitle { text-align:center; color:var(--gray-500); font-size:.85rem; margin-bottom:1.5rem; }
+.demo-box { margin-top:1.2rem; background:var(--gray-50); border:1px dashed var(--gray-300); border-radius:8px; padding:.8rem; font-size:.75rem; color:var(--gray-500); }
+.demo-box h4 { font-size:.78rem; font-weight:600; color:var(--gray-600); margin-bottom:6px; }
+.demo-box code { background:white; padding:1px 5px; border-radius:3px; font-family:'SF Mono',Monaco,monospace; font-size:.72rem; border:1px solid var(--gray-200); }
 
-  /* FORMS */
-  .form-group { margin-bottom:1.1rem; }
-  .form-group label { display:block; font-size:0.82rem; font-weight:600; color:var(--gray-700); margin-bottom:5px; }
-  .form-group label .req { color:var(--red); }
-  .form-group input, .form-group select { width:100%; padding:10px 12px; border:1.5px solid var(--gray-300); border-radius:6px; font-size:0.9rem; font-family:inherit; transition:border-color 0.2s,box-shadow 0.2s; background:white; color:var(--gray-800); }
-  .form-group select { cursor:pointer; }
-  .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--red); box-shadow:0 0 0 3px rgba(200,16,46,0.1); }
-  .form-group .hint { font-size:0.75rem; color:var(--gray-400); margin-top:3px; }
-  .form-group .error-hint { font-size:0.75rem; color:var(--red); margin-top:3px; display:none; }
-  .form-group.has-error input, .form-group.has-error select { border-color:var(--red); }
-  .form-group.has-error .error-hint { display:block; }
-  .field-readonly { background:var(--gray-50) !important; color:var(--gray-600) !important; }
+/* ── FORMS ── */
+.form-group { margin-bottom:1.1rem; }
+.form-group label { display:block; font-size:.82rem; font-weight:600; color:var(--gray-700); margin-bottom:5px; }
+.form-group label .req { color:var(--primary); }
+.form-group input, .form-group select { width:100%; padding:10px 12px; border:1.5px solid var(--gray-300); border-radius:8px; font-size:.9rem; font-family:inherit; transition:border-color .2s,box-shadow .2s; background:white; color:var(--gray-800); }
+.form-group select { cursor:pointer; }
+.form-group input:focus, .form-group select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(72,95,199,.1); }
+.form-group .hint { font-size:.75rem; color:var(--gray-400); margin-top:3px; }
+.form-group .error-hint { font-size:.75rem; color:#DC2626; margin-top:3px; display:none; }
+.form-group.has-error input, .form-group.has-error select { border-color:#DC2626; }
+.form-group.has-error .error-hint { display:block; }
+.field-readonly { background:var(--gray-50) !important; color:var(--gray-600) !important; }
 
-  /* MAIN */
-  .main-wrapper { flex:1; padding:2rem; max-width:1100px; margin:0 auto; width:100%; }
-  .card { background:white; border-radius:10px; padding:1.5rem 2rem; box-shadow:0 1px 3px rgba(0,0,0,0.06); margin-bottom:1.25rem; }
-  .card h2 { font-size:1rem; font-weight:700; color:var(--gray-900); margin-bottom:1.25rem; padding-bottom:0.6rem; border-bottom:2px solid var(--gray-100); }
+/* ── MAIN ── */
+.main-wrapper { flex:1; padding:2rem; max-width:1100px; margin:0 auto; width:100%; }
+.card { background:white; border-radius:12px; padding:1.75rem 2rem; box-shadow:0 1px 4px rgba(0,0,0,.07); margin-bottom:1.25rem; }
+.card h2 { font-size:1.05rem; font-weight:700; color:var(--gray-900); margin-bottom:1.25rem; padding-bottom:.6rem; border-bottom:2px solid var(--gray-100); }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 2.5rem; align-items:start; }
+@media (max-width:700px) { .two-col { grid-template-columns:1fr; } }
 
-  /* TWO COLUMN LAYOUT — left stacks, right stacks */
-  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 2.5rem; align-items:start; }
-  .col-left, .col-right { display:flex; flex-direction:column; }
-  @media (max-width:700px) { .two-col { grid-template-columns:1fr; } }
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:8px; font-size:.92rem; font-weight:600; font-family:inherit; cursor:pointer; transition:all .2s; border:none; }
+.btn-primary { background:var(--primary); color:white; width:100%; }
+.btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:0 4px 14px var(--primary-shadow); }
+.btn-primary:disabled { opacity:.5; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+.btn-secondary { background:white; color:var(--gray-700); border:1.5px solid var(--gray-300); }
+.btn-secondary:hover { border-color:var(--gray-400); }
+.btn-back { background:none; border:none; color:var(--gray-500); font-size:.85rem; cursor:pointer; font-family:inherit; font-weight:500; padding:6px 0; margin-bottom:.75rem; }
+.btn-back:hover { color:var(--primary); }
 
-  /* PAYMENT RADIOS */
-  .radio-group { display:flex; flex-direction:column; gap:8px; }
-  .radio-option { display:flex; align-items:center; gap:10px; padding:12px 14px; border:1.5px solid var(--gray-200); border-radius:8px; cursor:pointer; transition:all 0.2s; background:white; }
-  .radio-option:hover { border-color:var(--red); }
-  .radio-option.selected { border-color:var(--red); background:var(--red-light); }
-  .radio-option input[type="radio"] { accent-color:var(--red); width:16px; height:16px; cursor:pointer; }
-  .radio-option .ro-content { flex:1; }
-  .radio-option .ro-title { font-size:0.88rem; font-weight:600; color:var(--gray-800); }
-  .radio-option .ro-desc { font-size:0.78rem; color:var(--gray-500); margin-top:1px; }
-  .radio-option .ro-price { font-weight:700; color:var(--red); font-size:0.9rem; white-space:nowrap; }
+/* ── ALERTS ── */
+.alert { padding:10px 14px; border-radius:8px; font-size:.82rem; display:none; align-items:center; gap:8px; margin-bottom:1rem; }
+.alert.visible { display:flex; }
+.alert-error { background:#FEE2E2; color:#991B1B; border:1px solid #FECACA; }
+.alert-success { background:var(--green-light); color:#065F46; border:1px solid #A7F3D0; }
+.alert-info { background:var(--primary-light); color:var(--primary-dark); border:1px solid #C7D2FB; }
+.hidden { display:none !important; }
+@keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+.anim-in { animation:slideDown .3s ease-out; }
 
-  /* BUTTONS */
-  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:8px; font-size:0.92rem; font-weight:600; font-family:inherit; cursor:pointer; transition:all 0.2s; border:none; }
-  .btn-primary { background:var(--red); color:white; width:100%; }
-  .btn-primary:hover { background:var(--red-dark); transform:translateY(-1px); box-shadow:0 4px 12px rgba(200,16,46,0.3); }
-  .btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
-  .btn-secondary { background:white; color:var(--gray-700); border:1.5px solid var(--gray-300); }
-  .btn-secondary:hover { border-color:var(--gray-400); }
-  .btn-back { background:none; border:none; color:var(--gray-500); font-size:0.85rem; cursor:pointer; font-family:inherit; font-weight:500; padding:6px 0; margin-bottom:1rem; }
-  .btn-back:hover { color:var(--red); }
+/* ── STEPS ── */
+.steps-bar { display:flex; align-items:center; justify-content:center; margin-bottom:1.5rem; }
+.step-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; color:var(--gray-400); flex-shrink:0; }
+.step-dot.active { background:var(--primary); border-color:var(--primary); color:white; }
+.step-dot.done { background:var(--green); border-color:var(--green); color:white; }
+.step-label { font-size:.78rem; color:var(--gray-400); margin-left:6px; font-weight:500; white-space:nowrap; }
+.step-label.active { color:var(--primary); font-weight:600; }
+.step-label.done { color:var(--green); }
+.step-line { width:40px; height:2px; background:var(--gray-200); margin:0 8px; flex-shrink:0; }
+.step-line.done { background:var(--green); }
 
-  /* ALERT */
-  .alert { padding:10px 14px; border-radius:8px; font-size:0.82rem; display:none; align-items:center; gap:8px; margin-bottom:1rem; }
-  .alert.visible { display:flex; }
-  .alert-error { background:#FEE2E2; color:#991B1B; border:1px solid #FECACA; }
-  .alert-success { background:var(--green-light); color:#065F46; border:1px solid #A7F3D0; }
-  .alert-info { background:var(--blue-light); color:#1E40AF; border:1px solid #BFDBFE; }
+/* ── CHECKOUT ── */
+.checkout-screen { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:2rem 1rem; background:var(--gray-50); }
+.pay-card { background:white; border-radius:14px; padding:2rem 2.5rem; width:100%; max-width:520px; box-shadow:0 2px 14px rgba(0,0,0,.08); }
+@media (max-width:560px) { .pay-card { padding:1.5rem 1.25rem; } }
+.pay-title { font-size:1.15rem; font-weight:700; color:var(--gray-900); text-align:center; margin-bottom:1.5rem; }
+.pay-total-bar { display:flex; justify-content:space-between; align-items:center; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:14px 18px; margin-bottom:1.75rem; font-size:.9rem; color:var(--gray-600); }
+.pay-total-amount { font-size:1.25rem; font-weight:800; color:var(--primary); }
+.pay-footer { margin-top:1.25rem; font-size:.73rem; color:var(--gray-400); text-align:center; line-height:1.5; }
+.pay-footer a { color:var(--gray-500); text-decoration:underline; }
+.half-row { display:grid; grid-template-columns:1fr 1fr; gap:0 1.5rem; }
 
-  .hidden { display:none !important; }
-  @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-  .anim-in { animation:slideDown 0.3s ease-out; }
+/* ── PAC / TOKU CHECKOUT ── */
+.pac-screen { background:var(--toku-dark); }
+.pac-header { background:var(--toku-dark); padding:0 2rem; height:60px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.1); flex-shrink:0; }
+.pac-header-logo { display:flex; align-items:center; gap:10px; color:white; font-size:1.1rem; font-weight:700; }
+.pac-header-logo .logo-box { background:white; color:var(--toku-dark); }
+.pac-header-user { display:flex; align-items:center; gap:8px; font-size:.85rem; color:rgba(255,255,255,.75); }
+.pac-header-user .avatar { background:rgba(255,255,255,.2); color:white; }
+.pac-body { flex:1; display:flex; flex-direction:column; align-items:center; padding:1.5rem 1rem; }
+.pac-back { align-self:flex-start; background:none; border:none; color:rgba(255,255,255,.7); font-size:1.3rem; cursor:pointer; padding:4px 10px; border-radius:6px; transition:all .2s; margin-bottom:.5rem; font-family:inherit; line-height:1; }
+.pac-back:hover { color:white; background:rgba(255,255,255,.1); }
+.pac-card { background:white; border-radius:14px; padding:1.75rem; width:100%; max-width:440px; box-shadow:0 10px 40px rgba(0,0,0,.25); }
+.pac-title { font-size:1.1rem; font-weight:700; color:var(--gray-900); margin-bottom:1.25rem; text-align:center; }
+.pac-product-bar { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:8px; padding:10px 14px; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; font-size:.8rem; color:var(--gray-500); gap:8px; }
+.pac-product-code { font-weight:700; color:var(--gray-800); font-size:.8rem; text-align:right; max-width:65%; }
+.pac-option { display:flex; align-items:center; gap:14px; padding:16px; border:1.5px solid var(--gray-200); border-radius:10px; cursor:pointer; transition:all .2s; margin-bottom:10px; }
+.pac-option:hover { border-color:var(--primary); background:var(--primary-light); }
+.pac-option .opt-icon { width:44px; height:44px; background:var(--primary-light); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.pac-option .opt-title { font-size:.92rem; font-weight:700; color:var(--gray-800); }
+.pac-option .opt-desc { font-size:.78rem; color:var(--gray-500); margin-top:2px; }
+.pac-info-badge { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E40AF; border-radius:6px; padding:8px 12px; font-size:.8rem; margin-bottom:1.25rem; }
+.pac-bank-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.pac-bank { border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 6px; cursor:pointer; display:flex; align-items:center; justify-content:center; min-height:58px; transition:all .2s; text-align:center; }
+.pac-bank:hover { border-color:var(--primary); background:var(--primary-light); transform:translateY(-1px); }
+.pac-bank-selected-display { display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--gray-50); border:1px solid var(--gray-200); border-radius:8px; margin-bottom:1.25rem; font-size:.9rem; font-weight:700; }
+.toku-btn { width:100%; padding:13px; border:none; border-radius:8px; font-size:.95rem; font-weight:700; font-family:inherit; cursor:pointer; transition:all .2s; }
+.toku-btn.off { background:var(--gray-200); color:var(--gray-500); cursor:not-allowed; }
+.toku-btn.on { background:var(--primary); color:white; }
+.toku-btn.on:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:0 4px 14px var(--primary-shadow); }
+.pac-footer { text-align:center; padding:1.5rem 0 .5rem; font-size:.78rem; color:rgba(255,255,255,.5); line-height:1.6; }
+.pac-footer .toku-brand { color:rgba(255,255,255,.7); }
+.pac-footer strong { color:white; }
 
-  /* STEPS */
-  .steps-bar { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:1.5rem; }
-  .step-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; color:var(--gray-400); }
-  .step-dot.active { background:var(--red); border-color:var(--red); color:white; }
-  .step-dot.done { background:var(--green); border-color:var(--green); color:white; }
-  .step-label { font-size:0.78rem; color:var(--gray-400); margin-left:6px; font-weight:500; }
-  .step-label.active { color:var(--red); font-weight:600; }
-  .step-label.done { color:var(--green); }
-  .step-line { width:50px; height:2px; background:var(--gray-200); margin:0 10px; }
-  .step-line.done { background:var(--green); }
-
-  /* CHECKOUT SUMMARY */
-  .checkout-summary { background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:1rem; margin-bottom:1.25rem; }
-  .cs-row { display:flex; justify-content:space-between; padding:5px 0; font-size:0.85rem; }
-  .cs-row .cs-label { color:var(--gray-500); }
-  .cs-row .cs-value { font-weight:600; color:var(--gray-800); }
-  .cs-row.cs-total { border-top:2px solid var(--gray-200); margin-top:6px; padding-top:10px; }
-  .cs-row.cs-total .cs-value { color:var(--red); font-size:1.05rem; }
-
-  /* SUCCESS */
-  .success-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; justify-content:center; align-items:center; padding:1rem; }
-  .success-overlay.visible { display:flex; }
-  .success-modal { background:white; border-radius:14px; padding:2.5rem; max-width:480px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.2); animation:slideDown 0.4s ease-out; }
-  .success-modal .s-icon { width:70px; height:70px; background:var(--green-light); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:1rem; }
-  .success-modal h2 { font-size:1.3rem; margin-bottom:0.5rem; color:var(--gray-900); }
-  .success-modal p { color:var(--gray-500); font-size:0.88rem; line-height:1.5; margin-bottom:1.5rem; }
-  .success-details { background:var(--gray-50); border-radius:8px; padding:1rem; text-align:left; margin-bottom:1.5rem; }
-  .success-details .sd-row { display:flex; justify-content:space-between; padding:5px 0; font-size:0.82rem; }
-  .success-details .sd-label { color:var(--gray-500); }
-  .success-details .sd-value { font-weight:600; color:var(--gray-800); text-align:right; max-width:60%; }
-
-  /* PAY CARD (checkout estilo imagen) */
-  .pay-card {
-    background:white; border-radius:12px; padding:2rem 2.5rem;
-    width:100%; max-width:520px; box-shadow:0 2px 12px rgba(0,0,0,0.08);
-  }
-  .pay-title {
-    font-size:1.2rem; font-weight:700; color:var(--gray-900);
-    text-align:center; margin-bottom:1.5rem;
-  }
-  .pay-total-bar {
-    display:flex; justify-content:space-between; align-items:center;
-    background:var(--gray-50); border:1.5px solid var(--gray-200);
-    border-radius:8px; padding:14px 18px; margin-bottom:1.75rem;
-    font-size:0.95rem; color:var(--gray-600);
-  }
-  .pay-total-amount { font-size:1.25rem; font-weight:800; color:var(--red); }
-  .pay-footer {
-    margin-top:1.25rem; font-size:0.75rem; color:var(--gray-400);
-    text-align:center; line-height:1.5;
-  }
-  .pay-footer a { color:var(--gray-500); text-decoration:underline; }
-  .btn-pay-disabled { }
-  .pay-card .form-group input, .pay-card .form-group select {
-    padding:12px 14px; font-size:0.95rem; border-radius:8px;
-  }
+/* ── SUCCESS ── */
+.success-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:200; justify-content:center; align-items:center; padding:1rem; }
+.success-overlay.visible { display:flex; }
+.success-modal { background:white; border-radius:16px; padding:2.5rem; max-width:480px; width:100%; text-align:center; box-shadow:0 25px 70px rgba(0,0,0,.2); animation:slideDown .4s ease-out; }
+.success-modal .s-icon { width:72px; height:72px; background:var(--green-light); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:1rem; }
+.success-modal h2 { font-size:1.4rem; margin-bottom:.5rem; color:var(--gray-900); }
+.success-modal p { color:var(--gray-500); font-size:.88rem; line-height:1.5; margin-bottom:1.5rem; }
+.success-details { background:var(--gray-50); border-radius:10px; padding:1rem; text-align:left; margin-bottom:1.5rem; }
+.success-details .sd-row { display:flex; justify-content:space-between; padding:6px 0; font-size:.82rem; border-bottom:1px solid var(--gray-100); }
+.success-details .sd-row:last-child { border-bottom:none; }
+.success-details .sd-label { color:var(--gray-500); }
+.success-details .sd-value { font-weight:600; color:var(--gray-800); text-align:right; max-width:60%; }
 </style>
 </head>
 <body>
 
-<!-- ========== LOGIN ========== -->
+<!-- ════════════════════ PANTALLA 1: LOGIN ════════════════════ -->
 <div id="screen-login" class="screen login-screen active">
   <div class="login-card">
-    <div class="login-logo"><div class="dot">T</div></div>
+    <div class="login-logo"><div class="logo-box">T</div></div>
     <h1>Toku Educación</h1>
     <p class="subtitle">Portal de Matrícula — Educación Continua</p>
-    <div id="login-alert" class="alert alert-error"><span>⚠</span> <span id="login-alert-text"></span></div>
+    <div id="login-alert" class="alert alert-error"><span>⚠</span>&nbsp;<span id="login-alert-text"></span></div>
     <div class="form-group" id="fg-rut">
       <label>RUT <span class="req">*</span></label>
-      <input type="text" id="input-rut" placeholder="Ej: 12345678-9" maxlength="12">
+      <input type="text" id="input-rut" placeholder="Ej: 12345678-5" maxlength="12" autocomplete="username">
       <p class="hint">Ingresa tu RUT con guión y dígito verificador</p>
       <p class="error-hint">RUT inválido</p>
     </div>
     <div class="form-group" id="fg-pass">
       <label>Contraseña <span class="req">*</span></label>
-      <input type="password" id="input-pass" placeholder="Tu contraseña">
+      <input type="password" id="input-pass" placeholder="Tu contraseña" autocomplete="current-password">
       <p class="error-hint">Ingresa tu contraseña</p>
     </div>
     <button class="btn btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
     <div class="demo-box">
       <h4>Usuarios demo:</h4>
-      <div><code>12345678-5</code> / <code>demo123</code></div>
-      <div><code>98765432-1</code> / <code>demo123</code></div>
-      <div><code>11222333-4</code> / <code>demo123</code></div>
+      <div style="margin-bottom:3px"><code>12345678-5</code> / <code>demo123</code> — María González</div>
+      <div style="margin-bottom:3px"><code>98765432-1</code> / <code>demo123</code> — Carlos Muñoz</div>
+      <div><code>11222333-4</code> / <code>demo123</code> — Ana Martínez</div>
     </div>
   </div>
 </div>
 
-<!-- ========== FORMULARIO PRINCIPAL ========== -->
+<!-- ════════════════════ PANTALLA 2: FORMULARIO ════════════════════ -->
 <div id="screen-form" class="screen">
   <div class="header">
-    <div class="header-logo"><div class="dot">T</div> Toku Educación</div>
+    <div class="header-logo"><div class="logo-box">T</div>&nbsp;Toku Educación</div>
     <div class="header-user">
       <span id="h-username"></span>
       <div class="avatar" id="h-avatar"></div>
@@ -193,38 +191,39 @@
     </div>
   </div>
   <div class="main-wrapper">
-
-    <!-- CUADRANTE ÚNICO: Datos + Producto -->
     <div class="card">
       <h2>Registro de Matrícula</h2>
       <div class="two-col">
-        <div class="col-left">
+
+        <!-- Columna izquierda: datos alumno (readonly) -->
+        <div>
           <div class="form-group">
-            <label>Rut <span class="req">*</span></label>
+            <label>RUT <span class="req">*</span></label>
             <input type="text" id="f-rut" readonly class="field-readonly">
-            <p class="hint">Ingresa tu rut sin puntos ni guion y con digito verificador: 123456789</p>
+            <p class="hint">RUT del alumno</p>
           </div>
           <div class="form-group">
-            <label>Nombre <span class="req">*</span></label>
+            <label>Nombre completo <span class="req">*</span></label>
             <input type="text" id="f-nombre" readonly class="field-readonly">
           </div>
           <div class="form-group">
             <label>Celular</label>
             <input type="text" id="f-celular" placeholder="+569XXXXXXXX">
-            <p class="hint">Número de teléfono del Pagador (+569XXXXXXXX)</p>
+            <p class="hint">Número de teléfono del pagador (+569XXXXXXXX)</p>
           </div>
           <div class="form-group">
             <label>Email <span class="req">*</span></label>
             <input type="text" id="f-email" readonly class="field-readonly">
           </div>
         </div>
-        <div class="col-right">
-          <div class="form-group">
+
+        <!-- Columna derecha: selección programa en cascada -->
+        <div>
+          <div class="form-group" id="fg-contrato">
             <label>Número de contrato <span class="req">*</span></label>
             <input type="text" id="f-contrato" placeholder="Ingresa tu número de contrato">
-            <p class="error-hint">Obligatorio</p>
+            <p class="error-hint">Este campo es obligatorio</p>
           </div>
-          <!-- Tipo de programa -->
           <div class="form-group">
             <label>Tipo de programa <span class="req">*</span></label>
             <select id="f-tipo" onchange="onTipoChange()">
@@ -235,14 +234,12 @@
               <option value="taller">Taller</option>
             </select>
           </div>
-          <!-- Producto (aparece al elegir tipo) -->
           <div class="form-group hidden" id="fg-producto">
             <label>Producto <span class="req">*</span></label>
             <select id="f-producto" onchange="onProductoChange()">
               <option value="">— Selecciona programa —</option>
             </select>
           </div>
-          <!-- Info curso: duración, horas, modalidad (aparecen al elegir producto) -->
           <div id="fields-info" class="hidden">
             <div class="form-group">
               <label>Duración</label>
@@ -266,148 +263,75 @@
             </div>
             <div class="form-group">
               <label>Total programa</label>
-              <input type="text" id="fi-total" readonly class="field-readonly" style="font-weight:700;color:var(--red) !important">
+              <input type="text" id="fi-total" readonly class="field-readonly" style="font-weight:700;color:var(--primary)!important">
             </div>
-            <!-- Forma de pago (desplegable, aparece con la info del curso) -->
             <div class="form-group">
               <label>Forma de pago <span class="req">*</span></label>
               <select id="f-pago" onchange="onPagoChange()">
                 <option value="">— Selecciona forma de pago —</option>
                 <option value="contado">Pago al Contado (Matrícula + Arancel)</option>
-                <option value="cuotas">Pago en Cuotas PAC/PAT (Matrícula + Cuotas)</option>
+                <option value="cuotas">Pago en Cuotas PAC/PAT (Matrícula + Cuotas mensuales)</option>
               </select>
             </div>
-            <!-- Número de cuotas (aparece solo si elige PAC) -->
             <div class="form-group hidden" id="fg-cuotas-form">
               <label>Número de cuotas <span class="req">*</span></label>
               <select id="f-cuotas-form" onchange="onCuotasFormChange()">
-                <option value="">— Selecciona cuotas —</option>
+                <option value="">— Selecciona número de cuotas —</option>
               </select>
             </div>
-            <!-- Valor cuota (aparece al elegir cuotas) -->
             <div class="form-group hidden" id="fg-valor-cuota">
               <label>Valor por cuota</label>
-              <input type="text" id="fi-valor-cuota" readonly class="field-readonly" style="font-weight:700;color:var(--red) !important">
+              <input type="text" id="fi-valor-cuota" readonly class="field-readonly" style="font-weight:700;color:var(--primary)!important">
             </div>
           </div>
         </div>
       </div>
-      <!-- Botón Continuar (aparece al elegir forma de pago) -->
+
       <div id="btn-continuar-wrap" class="hidden" style="margin-top:1.25rem">
-        <button class="btn btn-primary" onclick="continuar()">Continuar</button>
+        <button class="btn btn-primary" onclick="continuar()">Continuar →</button>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ========== PAGO MATRÍCULA ========== -->
+<!-- ════════════════════ PANTALLA 3: PAGO MATRÍCULA ════════════════════ -->
 <div id="screen-pay-matricula" class="screen">
-  <div class="header" style="border-bottom-color:var(--red)">
-    <div class="header-logo"><div class="dot">T</div> Toku Educación</div>
+  <div class="header">
+    <div class="header-logo"><div class="logo-box">T</div>&nbsp;Toku Educación</div>
     <div class="header-user"><span id="h-username2"></span><div class="avatar" id="h-avatar2"></div></div>
   </div>
-  <div style="flex:1;display:flex;justify-content:center;align-items:flex-start;padding:2rem 1rem;background:var(--gray-50)">
+  <div class="checkout-screen">
     <div class="pay-card">
-      <button class="btn-back" onclick="goTo('screen-form')" style="margin-bottom:0.75rem">← Volver</button>
-      <div class="steps-bar" style="margin-bottom:1.5rem">
+      <button class="btn-back" onclick="goTo('screen-form')">← Volver</button>
+      <div class="steps-bar">
         <div class="step-dot active">1</div><span class="step-label active">Matrícula</span>
         <div class="step-line"></div>
         <div class="step-dot" id="s2-dot">2</div><span class="step-label" id="s2-label">Arancel</span>
         <div class="step-line"></div>
         <div class="step-dot">3</div><span class="step-label">Confirmación</span>
       </div>
-
       <h2 class="pay-title">Ingresa los datos de tu tarjeta</h2>
-
       <div class="pay-total-bar">
-        <span>Total a pagar</span>
+        <span>Total a pagar (Matrícula)</span>
         <span class="pay-total-amount" id="pay-m-amount"></span>
       </div>
-      <p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:1.5rem;display:none" id="pay-m-program"></p>
-
       <div class="form-group">
         <label>Número de tarjeta <span class="req">*</span></label>
-        <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19">
+        <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
       </div>
-
       <div class="form-group">
         <label>Nombre y apellido <span class="req">*</span></label>
         <input type="text" id="card-name" placeholder="">
         <p class="hint">Tal cual esté impreso en la tarjeta</p>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 1.5rem">
+      <div class="half-row">
         <div class="form-group">
           <label>Fecha expiración <span class="req">*</span></label>
-          <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5">
+          <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" inputmode="numeric">
         </div>
         <div class="form-group">
           <label>CVV <span class="req">*</span></label>
-          <input type="text" id="card-cvv" placeholder="" maxlength="4">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Cuotas</label>
-        <select id="card-cuotas" disabled>
-          <option>Sin cuotas</option>
-        </select>
-        <p class="hint">Debes escribir el número de tarjeta antes</p>
-      </div>
-
-      <div id="pay-m-alert" class="alert alert-error"><span>⚠</span> <span id="pay-m-alert-text"></span></div>
-
-      <button class="btn btn-primary btn-pay-disabled" id="btn-pay-matricula" onclick="payMatricula()">Pagar</button>
-
-      <p class="pay-footer">Este sitio está protegido por reCAPTCHA y se aplican la <a href="#">Política de Privacidad</a> y <a href="#">Términos de Servicio</a> de Google.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ========== PAGO ARANCEL (CONTADO) ========== -->
-<div id="screen-pay-arancel" class="screen">
-  <div class="header">
-    <div class="header-logo"><div class="dot">T</div> Toku Educación</div>
-    <div class="header-user"><span id="h-username3"></span><div class="avatar" id="h-avatar3"></div></div>
-  </div>
-  <div style="flex:1;display:flex;justify-content:center;align-items:flex-start;padding:2rem 1rem;background:var(--gray-50)">
-    <div class="pay-card">
-      <div class="steps-bar" style="margin-bottom:1.5rem">
-        <div class="step-dot done">✓</div><span class="step-label done">Matrícula</span>
-        <div class="step-line done"></div>
-        <div class="step-dot active">2</div><span class="step-label active">Arancel</span>
-        <div class="step-line"></div>
-        <div class="step-dot">3</div><span class="step-label">Confirmación</span>
-      </div>
-
-      <div class="alert alert-success visible" style="margin-bottom:1rem"><span>✅</span> Matrícula pagada exitosamente</div>
-
-      <h2 class="pay-title">Ingresa los datos de tu tarjeta</h2>
-      <p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:0.5rem;display:none" id="pay-a-program"></p>
-
-      <div class="pay-total-bar">
-        <span>Total a pagar</span>
-        <span class="pay-total-amount" id="pay-a-amount"></span>
-      </div>
-
-      <div class="form-group">
-        <label>Número de tarjeta <span class="req">*</span></label>
-        <input type="text" id="card-number2" placeholder="0000 0000 0000 0000" maxlength="19">
-      </div>
-      <div class="form-group">
-        <label>Nombre y apellido <span class="req">*</span></label>
-        <input type="text" id="card-name2" placeholder="">
-        <p class="hint">Tal cual esté impreso en la tarjeta</p>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 1.5rem">
-        <div class="form-group">
-          <label>Fecha expiración <span class="req">*</span></label>
-          <input type="text" id="card-expiry2" placeholder="MM/AA" maxlength="5">
-        </div>
-        <div class="form-group">
-          <label>CVV <span class="req">*</span></label>
-          <input type="text" id="card-cvv2" placeholder="" maxlength="4">
+          <input type="text" id="card-cvv" placeholder="•••" maxlength="4" inputmode="numeric">
         </div>
       </div>
       <div class="form-group">
@@ -415,88 +339,197 @@
         <select disabled><option>Sin cuotas</option></select>
         <p class="hint">Debes escribir el número de tarjeta antes</p>
       </div>
-
-      <button class="btn btn-primary" id="btn-pay-arancel" onclick="payArancel()">Pagar</button>
-      <p class="pay-footer">Este sitio está protegido por reCAPTCHA y se aplican la <a href="#">Política de Privacidad</a> y <a href="#">Términos de Servicio</a> de Google.</p>
+      <div id="pay-m-alert" class="alert alert-error"><span>⚠</span>&nbsp;<span id="pay-m-alert-text"></span></div>
+      <button class="btn btn-primary" id="btn-pay-matricula" onclick="payMatricula()">Pagar</button>
+      <p class="pay-footer">Este sitio está protegido por reCAPTCHA y se aplican la <a href="#">Política de Privacidad</a> y los <a href="#">Términos de Servicio</a> de Google.</p>
     </div>
   </div>
 </div>
 
-<!-- ========== INSCRIBIR PAC/PAT — PASO 1: ELIGE MEDIO ========== -->
-<div id="screen-pac" class="screen">
-  <div class="header header-dark">
-    <div class="header-logo" style="color:white"><div class="dot" style="background:white;color:var(--red)">T</div> <span style="color:white">Toku Educación</span></div>
-    <div class="header-user" style="color:rgba(255,255,255,0.8)">
-      <span id="h-username4"></span>
-      <div class="avatar" id="h-avatar4" style="background:rgba(255,255,255,0.2);color:white"></div>
+<!-- ════════════════════ PANTALLA 4a: PAGO ARANCEL (CONTADO) ════════════════════ -->
+<div id="screen-pay-arancel" class="screen">
+  <div class="header">
+    <div class="header-logo"><div class="logo-box">T</div>&nbsp;Toku Educación</div>
+    <div class="header-user"><span id="h-username3"></span><div class="avatar" id="h-avatar3"></div></div>
+  </div>
+  <div class="checkout-screen">
+    <div class="pay-card">
+      <div class="steps-bar">
+        <div class="step-dot done">✓</div><span class="step-label done">Matrícula</span>
+        <div class="step-line done"></div>
+        <div class="step-dot active">2</div><span class="step-label active">Arancel</span>
+        <div class="step-line"></div>
+        <div class="step-dot">3</div><span class="step-label">Confirmación</span>
+      </div>
+      <div class="alert alert-success visible"><span>✅</span>&nbsp;Matrícula pagada exitosamente</div>
+      <h2 class="pay-title">Ingresa los datos de tu tarjeta</h2>
+      <div class="pay-total-bar">
+        <span>Total a pagar (Arancel)</span>
+        <span class="pay-total-amount" id="pay-a-amount"></span>
+      </div>
+      <div class="form-group">
+        <label>Número de tarjeta <span class="req">*</span></label>
+        <input type="text" id="card-number2" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+      </div>
+      <div class="form-group">
+        <label>Nombre y apellido <span class="req">*</span></label>
+        <input type="text" id="card-name2" placeholder="">
+        <p class="hint">Tal cual esté impreso en la tarjeta</p>
+      </div>
+      <div class="half-row">
+        <div class="form-group">
+          <label>Fecha expiración <span class="req">*</span></label>
+          <input type="text" id="card-expiry2" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>CVV <span class="req">*</span></label>
+          <input type="text" id="card-cvv2" placeholder="•••" maxlength="4" inputmode="numeric">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cuotas</label>
+        <select disabled><option>Sin cuotas</option></select>
+        <p class="hint">Debes escribir el número de tarjeta antes</p>
+      </div>
+      <div id="pay-a-alert" class="alert alert-error"><span>⚠</span>&nbsp;<span id="pay-a-alert-text"></span></div>
+      <button class="btn btn-primary" id="btn-pay-arancel" onclick="payArancel()">Pagar</button>
+      <p class="pay-footer">Este sitio está protegido por reCAPTCHA y se aplican la <a href="#">Política de Privacidad</a> y los <a href="#">Términos de Servicio</a> de Google.</p>
     </div>
   </div>
-  <div class="toku-checkout-bg">
-    <button class="btn-back-toku" onclick="goTo('screen-form')">←</button>
-    <div class="toku-card" id="pac-step1">
-      <h2 class="toku-title">Elige tu medio de pago</h2>
-      <div class="toku-product-bar">
+</div>
+
+<!-- ════════════════════ PANTALLA 4b: PAC/PAT (3 sub-pasos) ════════════════════ -->
+<div id="screen-pac" class="screen pac-screen">
+  <div class="pac-header">
+    <div class="pac-header-logo"><div class="logo-box">T</div>&nbsp;Toku Educación</div>
+    <div class="pac-header-user">
+      <span id="h-username4"></span>
+      <div class="avatar" id="h-avatar4" style="background:rgba(255,255,255,.2);color:white"></div>
+    </div>
+  </div>
+  <div class="pac-body">
+    <button class="pac-back" onclick="pacBack()">←</button>
+
+    <!-- Sub-paso 1: elige medio -->
+    <div class="pac-card" id="pac-step1">
+      <h2 class="pac-title">Elige tu medio de pago</h2>
+      <div class="pac-product-bar">
         <span>Producto seleccionado</span>
-        <span class="toku-product-code" id="pac-product-code"></span>
+        <span class="pac-product-code" id="pac-product-name"></span>
       </div>
-      <div class="toku-option" onclick="pacChoose('pac')">
-        <div class="toku-option-icon">🏦</div>
-        <div class="toku-option-content">
-          <div class="toku-option-title">PAC</div>
-          <div class="toku-option-desc">Pago automático a tu cuenta</div>
+      <div class="pac-option" onclick="pacChoose('pac')">
+        <div class="opt-icon">🏦</div>
+        <div>
+          <div class="opt-title">PAC</div>
+          <div class="opt-desc">Pago automático a tu cuenta bancaria</div>
         </div>
       </div>
-      <div class="toku-option" onclick="pacChoose('tarjeta')">
-        <div class="toku-option-icon">💳</div>
-        <div class="toku-option-content">
-          <div class="toku-option-title">Tarjeta</div>
-          <div class="toku-option-desc">Tarjeta de crédito, débito y prepago</div>
+      <div class="pac-option" onclick="pacChoose('tarjeta')">
+        <div class="opt-icon">💳</div>
+        <div>
+          <div class="opt-title">Tarjeta</div>
+          <div class="opt-desc">Tarjeta de crédito, débito y prepago</div>
         </div>
       </div>
     </div>
 
-    <!-- PASO 2: SELECCIONA BANCO -->
-    <div class="toku-card hidden" id="pac-step2">
-      <h2 class="toku-title">Selecciona tu banco</h2>
-      <div class="toku-info-badge">ℹ Sólo cuenta persona</div>
-      <div class="toku-bank-grid">
-        <div class="toku-bank" onclick="pacSelectBank('BCI')"><span style="color:#E4002B;font-weight:800;font-size:1.1rem">✕ Bci</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Consorcio')"><span style="font-weight:700;color:#1a3a6b">Consorcio</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Banco de Chile')"><span style="font-weight:700;color:#00205B;font-family:serif">Banco de Chile</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('BancoEstado')"><span style="color:#003DA5;font-weight:700">BancoEstado</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Banco Falabella')"><span style="color:#3AAA35;font-weight:700">B. Falabella</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Itaú')"><span style="color:#FF6600;font-weight:800;font-size:1.1rem">itaú</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Santander')"><span style="color:#EC0000;font-weight:700">Santander</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Scotiabank')"><span style="color:#EC111A;font-weight:700">Scotiabank</span></div>
-        <div class="toku-bank" onclick="pacSelectBank('Banco Security')"><span style="color:#4A1587;font-weight:700;font-size:0.8rem">BANCO<br>Security</span></div>
+    <!-- Sub-paso 2: selecciona banco -->
+    <div class="pac-card hidden" id="pac-step2">
+      <h2 class="pac-title">Selecciona tu banco</h2>
+      <div class="pac-info-badge">ℹ&nbsp; Sólo cuenta persona</div>
+      <div class="pac-bank-grid">
+        <div class="pac-bank" onclick="pacSelectBank('BCI','#E4002B')">
+          <span style="color:#E4002B;font-weight:800;font-size:1.05rem">✕ Bci</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Consorcio','#1a3a6b')">
+          <span style="font-weight:700;color:#1a3a6b;font-size:.83rem">Consorcio</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Banco de Chile','#00205B')">
+          <span style="font-weight:700;color:#00205B;font-size:.78rem;text-align:center;line-height:1.3">Banco<br>de Chile</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('BancoEstado','#003DA5')">
+          <span style="color:#003DA5;font-weight:700;font-size:.83rem">BancoEstado</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Banco Falabella','#3AAA35')">
+          <span style="color:#3AAA35;font-weight:700;font-size:.8rem">B. Falabella</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Itaú','#FF6600')">
+          <span style="color:#FF6600;font-weight:800;font-size:1.1rem">itaú</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Santander','#EC0000')">
+          <span style="color:#EC0000;font-weight:700">Santander</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Scotiabank','#EC111A')">
+          <span style="color:#EC111A;font-weight:700;font-size:.83rem">Scotiabank</span>
+        </div>
+        <div class="pac-bank" onclick="pacSelectBank('Banco Security','#4A1587')">
+          <span style="color:#4A1587;font-weight:700;font-size:.76rem;text-align:center;line-height:1.3">BANCO<br>Security</span>
+        </div>
       </div>
     </div>
 
-    <!-- PASO 3: INGRESAR DATOS -->
-    <div class="toku-card hidden" id="pac-step3">
-      <h2 class="toku-title">Ingresar datos</h2>
-      <div class="toku-bank-selected" id="pac-bank-display"></div>
+    <!-- Sub-paso 3: credenciales banco -->
+    <div class="pac-card hidden" id="pac-step3">
+      <h2 class="pac-title">Ingresar datos</h2>
+      <div class="pac-bank-selected-display" id="pac-bank-display"></div>
       <div class="form-group">
-        <label>Rut Usuario</label>
-        <input type="text" id="pac-rut-user" placeholder="">
+        <label>RUT Usuario</label>
+        <input type="text" id="pac-rut" placeholder="Ej: 12345678-5">
       </div>
       <div class="form-group">
         <label>Contraseña</label>
         <input type="password" id="pac-pass" placeholder="">
         <p class="hint">Ingresa la contraseña de tu portal web.</p>
       </div>
-      <div id="pac-alert" class="alert alert-error"><span>⚠</span> <span id="pac-alert-text"></span></div>
-      <button class="btn toku-btn-continue" id="btn-pac" onclick="inscribirPAC()">Continuar</button>
+      <div id="pac-alert" class="alert alert-error"><span>⚠</span>&nbsp;<span id="pac-alert-text"></span></div>
+      <button class="toku-btn off" id="btn-pac-continue" onclick="inscribirPAC()">Continuar</button>
     </div>
 
-    <div class="toku-footer">
-      <div class="toku-secure">🛡 Todas las transacciones se realizan bajo un sistema seguro</div>
-      <div class="toku-brand">Con la tecnología de <strong style="color:var(--red)">♥ toku</strong></div>
+    <!-- Sub-paso tarjeta (si elige "Tarjeta" en paso 1) -->
+    <div class="pac-card hidden" id="pac-step-tarjeta">
+      <div class="steps-bar" style="margin-bottom:1.25rem">
+        <div class="step-dot done">✓</div><span class="step-label done">Matrícula</span>
+        <div class="step-line done"></div>
+        <div class="step-dot active">2</div><span class="step-label active">Arancel</span>
+        <div class="step-line"></div>
+        <div class="step-dot">3</div><span class="step-label">Confirmación</span>
+      </div>
+      <h2 class="pac-title" style="font-size:1rem">Pago de arancel en cuotas</h2>
+      <div class="pay-total-bar" style="margin-bottom:1.25rem">
+        <span>Valor cuota mensual</span>
+        <span class="pay-total-amount" id="pac-tarjeta-amount"></span>
+      </div>
+      <div class="form-group">
+        <label>Número de tarjeta <span class="req">*</span></label>
+        <input type="text" id="pac-card-number" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+      </div>
+      <div class="form-group">
+        <label>Nombre y apellido <span class="req">*</span></label>
+        <input type="text" id="pac-card-name" placeholder="">
+        <p class="hint">Tal cual esté impreso en la tarjeta</p>
+      </div>
+      <div class="half-row">
+        <div class="form-group">
+          <label>Fecha expiración <span class="req">*</span></label>
+          <input type="text" id="pac-card-expiry" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>CVV <span class="req">*</span></label>
+          <input type="text" id="pac-card-cvv" placeholder="•••" maxlength="4" inputmode="numeric">
+        </div>
+      </div>
+      <div id="pac-tarjeta-alert" class="alert alert-error"><span>⚠</span>&nbsp;<span id="pac-tarjeta-alert-text"></span></div>
+      <button class="toku-btn on" id="btn-pac-tarjeta" onclick="payPACTarjeta()">Pagar</button>
+    </div>
+
+    <div class="pac-footer">
+      <div>🛡&nbsp; Todas las transacciones se realizan bajo un sistema seguro</div>
+      <div class="toku-brand">Con la tecnología de <strong>♥ toku</strong></div>
     </div>
   </div>
 </div>
 
-<!-- ========== SUCCESS ========== -->
+<!-- ════════════════════ PANTALLA 5: ÉXITO ════════════════════ -->
 <div id="success-overlay" class="success-overlay">
   <div class="success-modal">
     <div class="s-icon">🎉</div>
@@ -509,237 +542,388 @@
 </div>
 
 <script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
 const USERS = [
-  { rut:'12345678-5', password:'demo123', name:'María González Pérez', email:'maria.gonzalez@email.com', cel:'+56912345678' },
-  { rut:'98765432-1', password:'demo123', name:'Carlos Muñoz Rivera', email:'carlos.munoz@email.com', cel:'+56998765432' },
-  { rut:'11222333-4', password:'demo123', name:'Ana Martínez Silva', email:'ana.martinez@email.com', cel:'+56911223344' }
+  { rut:'12345678-5', password:'demo123', name:'María González Pérez',  email:'maria.gonzalez@email.com',  cel:'+56912345678' },
+  { rut:'98765432-1', password:'demo123', name:'Carlos Muñoz Rivera',   email:'carlos.munoz@email.com',    cel:'+56998765432' },
+  { rut:'11222333-4', password:'demo123', name:'Ana Martínez Silva',    email:'ana.martinez@email.com',    cel:'+56911223344' }
 ];
+
 const PROGRAMS = [
-  { id:1,type:'diplomado',name:'Diplomado en Marketing Digital y Redes Sociales',duration:'6 meses',hours:180,modality:'Online',maxCuotas:10,matricula:150000,arancel:1800000 },
-  { id:2,type:'diplomado',name:'Diplomado en Gestión de Proyectos',duration:'5 meses',hours:150,modality:'Híbrido',maxCuotas:8,matricula:180000,arancel:2200000 },
-  { id:3,type:'diplomado',name:'Diplomado en Innovación y Emprendimiento',duration:'5 meses',hours:160,modality:'Híbrido',maxCuotas:8,matricula:160000,arancel:1950000 },
-  { id:4,type:'curso',name:'Curso de Inteligencia Artificial Aplicada',duration:'3 meses',hours:90,modality:'Online',maxCuotas:4,matricula:80000,arancel:650000 },
-  { id:5,type:'curso',name:'Curso de Excel Avanzado y Power BI',duration:'2 meses',hours:60,modality:'Online',maxCuotas:3,matricula:50000,arancel:380000 },
-  { id:6,type:'certificacion',name:'Certificación en Ciberseguridad',duration:'4 meses',hours:120,modality:'Online',maxCuotas:6,matricula:120000,arancel:1500000 },
-  { id:7,type:'certificacion',name:'Certificación en Scrum Master',duration:'2 meses',hours:48,modality:'Presencial',maxCuotas:3,matricula:90000,arancel:580000 },
-  { id:8,type:'taller',name:'Taller de Oratoria y Comunicación Efectiva',duration:'1 mes',hours:24,modality:'Presencial',maxCuotas:2,matricula:40000,arancel:220000 },
-  { id:9,type:'taller',name:'Taller de Liderazgo y Gestión de Equipos',duration:'1 mes',hours:32,modality:'Presencial',maxCuotas:2,matricula:45000,arancel:280000 }
+  // Diplomados — maxCuotas: 10, 8, 6
+  { id:1, type:'diplomado',     name:'Diplomado en Marketing Digital y Redes Sociales', duration:'6 meses', hours:180, modality:'Online',    maxCuotas:10, matricula:150000,  arancel:1800000 },
+  { id:2, type:'diplomado',     name:'Diplomado en Gestión de Proyectos Ágiles',        duration:'5 meses', hours:150, modality:'Híbrido',    maxCuotas:8,  matricula:180000,  arancel:2200000 },
+  { id:3, type:'diplomado',     name:'Diplomado en Innovación y Emprendimiento',        duration:'5 meses', hours:160, modality:'Híbrido',    maxCuotas:6,  matricula:160000,  arancel:1950000 },
+  // Cursos — maxCuotas: 4, 3
+  { id:4, type:'curso',         name:'Curso de Inteligencia Artificial Aplicada',       duration:'3 meses', hours:90,  modality:'Online',     maxCuotas:4,  matricula:80000,   arancel:650000  },
+  { id:5, type:'curso',         name:'Curso de Excel Avanzado y Power BI',              duration:'2 meses', hours:60,  modality:'Online',     maxCuotas:3,  matricula:50000,   arancel:380000  },
+  // Certificaciones — maxCuotas: 6, 3
+  { id:6, type:'certificacion', name:'Certificación en Ciberseguridad Empresarial',     duration:'4 meses', hours:120, modality:'Online',     maxCuotas:6,  matricula:120000,  arancel:1500000 },
+  { id:7, type:'certificacion', name:'Certificación en Scrum Master',                   duration:'2 meses', hours:48,  modality:'Presencial', maxCuotas:3,  matricula:90000,   arancel:580000  },
+  // Talleres — maxCuotas: 2
+  { id:8, type:'taller',        name:'Taller de Oratoria y Comunicación Efectiva',      duration:'1 mes',   hours:24,  modality:'Presencial', maxCuotas:2,  matricula:40000,   arancel:220000  },
+  { id:9, type:'taller',        name:'Taller de Liderazgo y Gestión de Equipos',        duration:'1 mes',   hours:32,  modality:'Presencial', maxCuotas:2,  matricula:45000,   arancel:280000  }
 ];
 
-let currentUser=null, selectedProgram=null, paymentMethod=null, selectedCuotas=null;
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentUser     = null;
+let selectedProgram = null;
+let paymentMethod   = null;
+let selectedCuotas  = null;
+let selectedBank    = null;
+let selectedBankColor = null;
+let pacSubStep      = 1;
+let pacMedio        = null;
 
-function fmt(n){ return '$'+n.toLocaleString('es-CL'); }
-function getInitials(n){ return n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
-function goTo(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
-function updateHeaders(){
-  if(!currentUser)return;
-  const f=currentUser.name.split(' ')[0], ini=getInitials(currentUser.name);
-  for(let i=1;i<=4;i++){ const s=i===1?'':i; const u=document.getElementById('h-username'+s); const a=document.getElementById('h-avatar'+s); if(u)u.textContent=f; if(a)a.textContent=ini; }
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function fmt(n) { return '$' + n.toLocaleString('es-CL'); }
+function initials(n) { return n.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase(); }
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
 }
 
-// LOGIN
-function handleLogin(){
-  const rut=document.getElementById('input-rut').value.trim().replace(/\./g,'');
-  const pass=document.getElementById('input-pass').value;
-  const al=document.getElementById('login-alert'), at=document.getElementById('login-alert-text');
-  al.classList.remove('visible'); document.getElementById('fg-rut').classList.remove('has-error'); document.getElementById('fg-pass').classList.remove('has-error');
-  if(!rut){document.getElementById('fg-rut').classList.add('has-error');return;}
-  if(!pass){document.getElementById('fg-pass').classList.add('has-error');return;}
-  if(!/^\d{7,8}-[\dkK]$/.test(rut)){document.getElementById('fg-rut').classList.add('has-error');at.textContent='Formato de RUT inválido. Usa: 12345678-9';al.classList.add('visible');return;}
-  const user=USERS.find(u=>u.rut===rut&&u.password===pass);
-  if(!user){at.textContent='RUT o contraseña incorrectos.';al.classList.add('visible');return;}
-  currentUser=user; updateHeaders();
-  document.getElementById('f-rut').value=user.rut;
-  document.getElementById('f-nombre').value=user.name;
-  document.getElementById('f-email').value=user.email;
-  document.getElementById('f-celular').value=user.cel||'';
+function syncHeaders() {
+  if (!currentUser) return;
+  const first = currentUser.name.split(' ')[0];
+  const ini   = initials(currentUser.name);
+  [['h-username','h-avatar'],['h-username2','h-avatar2'],['h-username3','h-avatar3'],['h-username4','h-avatar4']].forEach(([u,a]) => {
+    const uel = document.getElementById(u), ael = document.getElementById(a);
+    if (uel) uel.textContent = first;
+    if (ael) ael.textContent = ini;
+  });
+}
+
+// ─── LOGIN ───────────────────────────────────────────────────────────────────
+function handleLogin() {
+  const rawRut = document.getElementById('input-rut').value.trim().replace(/\./g,'');
+  const pass   = document.getElementById('input-pass').value;
+  const alEl   = document.getElementById('login-alert');
+  const alText = document.getElementById('login-alert-text');
+
+  alEl.classList.remove('visible');
+  ['fg-rut','fg-pass'].forEach(id => document.getElementById(id).classList.remove('has-error'));
+
+  if (!rawRut) { document.getElementById('fg-rut').classList.add('has-error'); return; }
+  if (!pass)   { document.getElementById('fg-pass').classList.add('has-error'); return; }
+  if (!/^\d{7,8}-[\dkK]$/.test(rawRut)) {
+    document.getElementById('fg-rut').classList.add('has-error');
+    alText.textContent = 'Formato de RUT inválido. Usa: 12345678-5';
+    alEl.classList.add('visible');
+    return;
+  }
+  const user = USERS.find(u => u.rut === rawRut && u.password === pass);
+  if (!user) { alText.textContent = 'RUT o contraseña incorrectos.'; alEl.classList.add('visible'); return; }
+
+  currentUser = user;
+  syncHeaders();
+  document.getElementById('f-rut').value     = user.rut;
+  document.getElementById('f-nombre').value  = user.name;
+  document.getElementById('f-email').value   = user.email;
+  document.getElementById('f-celular').value = user.cel || '';
   goTo('screen-form');
 }
-function logout(){
-  currentUser=null;selectedProgram=null;paymentMethod=null;
-  document.getElementById('input-rut').value='';document.getElementById('input-pass').value='';
+
+function logout() {
+  currentUser = null; selectedProgram = null; paymentMethod = null;
+  document.getElementById('input-rut').value  = '';
+  document.getElementById('input-pass').value = '';
   document.getElementById('login-alert').classList.remove('visible');
   document.getElementById('success-overlay').classList.remove('visible');
   goTo('screen-login');
 }
 
-// CASCADING
-function onTipoChange(){
-  const tipo=document.getElementById('f-tipo').value;
-  const fg=document.getElementById('fg-producto');
-  hideInfo(); selectedProgram=null; paymentMethod=null; document.getElementById('btn-continuar-wrap').classList.add('hidden');
-  if(!tipo){fg.classList.add('hidden');return;}
-  const sel=document.getElementById('f-producto');
-  const filtered=PROGRAMS.filter(p=>p.type===tipo);
-  sel.innerHTML='<option value="">— Selecciona programa —</option>';
-  filtered.forEach(p=>{sel.innerHTML+=`<option value="${p.id}">${p.name}</option>`;});
-  fg.classList.remove('hidden'); fg.classList.add('anim-in');
-}
-function onProductoChange(){
-  const id=parseInt(document.getElementById('f-producto').value);
-  hideInfo(); paymentMethod=null; document.getElementById('btn-continuar-wrap').classList.add('hidden');
-  if(!id){selectedProgram=null;return;}
-  selectedProgram=PROGRAMS.find(p=>p.id===id);
-  const p=selectedProgram;
-  // Fill info fields
-  document.getElementById('fi-duracion').value=p.duration;
-  document.getElementById('fi-horas').value=p.hours+' hrs';
-  document.getElementById('fi-modalidad').value=p.modality;
-  document.getElementById('fi-matricula').value=fmt(p.matricula);
-  document.getElementById('fi-arancel').value=fmt(p.arancel);
-  document.getElementById('fi-total').value=fmt(p.matricula+p.arancel);
-  const fi=document.getElementById('fields-info'); fi.classList.remove('hidden'); fi.classList.add('anim-in');
-  // Reset pago
-  document.getElementById('f-pago').value='';
-  document.getElementById('fg-cuotas-form').classList.add('hidden');
-  document.getElementById('fg-valor-cuota').classList.add('hidden');
+// ─── CASCADING FORM ──────────────────────────────────────────────────────────
+function onTipoChange() {
+  const tipo = document.getElementById('f-tipo').value;
+  selectedProgram = null; paymentMethod = null;
+  hideFields();
+  const fgProd = document.getElementById('fg-producto');
+  fgProd.classList.add('hidden');
   document.getElementById('btn-continuar-wrap').classList.add('hidden');
-  paymentMethod=null; selectedCuotas=null;
+  if (!tipo) return;
+  const sel = document.getElementById('f-producto');
+  sel.innerHTML = '<option value="">— Selecciona programa —</option>';
+  PROGRAMS.filter(p => p.type === tipo).forEach(p => {
+    sel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+  });
+  fgProd.classList.remove('hidden');
+  fgProd.classList.add('anim-in');
 }
-function hideInfo(){ document.getElementById('fields-info').classList.add('hidden'); }
 
-// PAGO DROPDOWN + CUOTAS + CONTINUAR
-function onPagoChange(){
-  const val=document.getElementById('f-pago').value;
-  paymentMethod=val||null;
+function onProductoChange() {
+  const id = parseInt(document.getElementById('f-producto').value);
+  hideFields(); paymentMethod = null; selectedCuotas = null;
+  document.getElementById('btn-continuar-wrap').classList.add('hidden');
+  if (!id) { selectedProgram = null; return; }
+  selectedProgram = PROGRAMS.find(p => p.id === id);
+  const p = selectedProgram;
+  document.getElementById('fi-duracion').value  = p.duration;
+  document.getElementById('fi-horas').value     = p.hours + ' hrs';
+  document.getElementById('fi-modalidad').value = p.modality;
+  document.getElementById('fi-matricula').value = fmt(p.matricula);
+  document.getElementById('fi-arancel').value   = fmt(p.arancel);
+  document.getElementById('fi-total').value     = fmt(p.matricula + p.arancel);
+  document.getElementById('f-pago').value       = '';
+  document.getElementById('fg-cuotas-form').classList.add('hidden');
+  document.getElementById('fg-valor-cuota').classList.add('hidden');
+  const fi = document.getElementById('fields-info');
+  fi.classList.remove('hidden');
+  fi.classList.add('anim-in');
+}
+
+function hideFields() { document.getElementById('fields-info').classList.add('hidden'); }
+
+function onPagoChange() {
+  const val = document.getElementById('f-pago').value;
+  paymentMethod = val || null; selectedCuotas = null;
   document.getElementById('fg-cuotas-form').classList.add('hidden');
   document.getElementById('fg-valor-cuota').classList.add('hidden');
   document.getElementById('btn-continuar-wrap').classList.add('hidden');
-  selectedCuotas=null;
-  if(val==='contado'){
+  if (val === 'contado') {
     document.getElementById('btn-continuar-wrap').classList.remove('hidden');
-  } else if(val==='cuotas'){
-    const p=selectedProgram, sel=document.getElementById('f-cuotas-form');
-    sel.innerHTML='<option value="">— Selecciona cuotas —</option>';
-    for(let i=2;i<=p.maxCuotas;i++) sel.innerHTML+=`<option value="${i}">${i} cuotas — ${fmt(Math.ceil(p.arancel/i))}/mes</option>`;
+    document.getElementById('btn-continuar-wrap').classList.add('anim-in');
+  } else if (val === 'cuotas') {
+    const sel = document.getElementById('f-cuotas-form');
+    sel.innerHTML = '<option value="">— Selecciona número de cuotas —</option>';
+    for (let i = 2; i <= selectedProgram.maxCuotas; i++) {
+      sel.innerHTML += `<option value="${i}">${i} cuotas — ${fmt(Math.ceil(selectedProgram.arancel / i))}/mes</option>`;
+    }
     document.getElementById('fg-cuotas-form').classList.remove('hidden');
+    document.getElementById('fg-cuotas-form').classList.add('anim-in');
   }
 }
-function onCuotasFormChange(){
-  const n=parseInt(document.getElementById('f-cuotas-form').value);
-  if(!n){ selectedCuotas=null; document.getElementById('fg-valor-cuota').classList.add('hidden'); document.getElementById('btn-continuar-wrap').classList.add('hidden'); return; }
-  selectedCuotas=n;
-  const cv=Math.ceil(selectedProgram.arancel/n);
-  document.getElementById('fi-valor-cuota').value=fmt(cv)+'/mes';
-  document.getElementById('fg-valor-cuota').classList.remove('hidden');
-  document.getElementById('btn-continuar-wrap').classList.remove('hidden');
+
+function onCuotasFormChange() {
+  const n    = parseInt(document.getElementById('f-cuotas-form').value);
+  const fgVC = document.getElementById('fg-valor-cuota');
+  const fgBt = document.getElementById('btn-continuar-wrap');
+  if (!n) { selectedCuotas = null; fgVC.classList.add('hidden'); fgBt.classList.add('hidden'); return; }
+  selectedCuotas = n;
+  document.getElementById('fi-valor-cuota').value = fmt(Math.ceil(selectedProgram.arancel / n)) + '/mes';
+  fgVC.classList.remove('hidden'); fgVC.classList.add('anim-in');
+  fgBt.classList.remove('hidden'); fgBt.classList.add('anim-in');
 }
-function continuar(){
-  if(!selectedProgram||!paymentMethod) return;
-  const contrato=document.getElementById('f-contrato').value.trim();
-  if(!contrato){ document.getElementById('f-contrato').focus(); return; }
-  const p=selectedProgram;
-  document.getElementById('pay-m-program').textContent=p.name;
-  document.getElementById('pay-m-amount').textContent=fmt(p.matricula);
-  document.getElementById('s2-label').textContent=paymentMethod==='contado'?'Arancel':'PAC/PAT';
-  ['card-name','card-number','card-expiry','card-cvv'].forEach(id=>document.getElementById(id).value='');
+
+function continuar() {
+  if (!selectedProgram || !paymentMethod) return;
+  const contrato = document.getElementById('f-contrato').value.trim();
+  if (!contrato) {
+    document.getElementById('fg-contrato').classList.add('has-error');
+    document.getElementById('f-contrato').focus(); return;
+  }
+  document.getElementById('fg-contrato').classList.remove('has-error');
+  document.getElementById('pay-m-amount').textContent  = fmt(selectedProgram.matricula);
+  document.getElementById('s2-label').textContent      = paymentMethod === 'contado' ? 'Arancel' : 'PAC/PAT';
+  ['card-name','card-number','card-expiry','card-cvv'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('pay-m-alert').classList.remove('visible');
   goTo('screen-pay-matricula');
 }
 
-// PAY MATRICULA
-function payMatricula(){
-  const n=document.getElementById('card-name').value.trim(),num=document.getElementById('card-number').value.trim(),
-        exp=document.getElementById('card-expiry').value.trim(),cvv=document.getElementById('card-cvv').value.trim();
-  if(!n||!num||!exp||!cvv){document.getElementById('pay-m-alert-text').textContent='Completa todos los campos de la tarjeta.';document.getElementById('pay-m-alert').classList.add('visible');return;}
+// ─── PAY MATRÍCULA ────────────────────────────────────────────────────────────
+function payMatricula() {
+  const n   = document.getElementById('card-name').value.trim();
+  const num = document.getElementById('card-number').value.trim();
+  const exp = document.getElementById('card-expiry').value.trim();
+  const cvv = document.getElementById('card-cvv').value.trim();
+  if (!n || !num || !exp || !cvv) {
+    document.getElementById('pay-m-alert-text').textContent = 'Completa todos los campos de la tarjeta.';
+    document.getElementById('pay-m-alert').classList.add('visible'); return;
+  }
   document.getElementById('pay-m-alert').classList.remove('visible');
-  const btn=document.getElementById('btn-pay-matricula'); btn.disabled=true; btn.textContent='Procesando...';
-  setTimeout(()=>{
-    btn.disabled=false; btn.textContent='Pagar Matrícula';
-    if(paymentMethod==='contado'){
-      document.getElementById('pay-a-program').textContent=selectedProgram.name;
-      document.getElementById('pay-a-amount').textContent=fmt(selectedProgram.arancel);
+  const btn = document.getElementById('btn-pay-matricula');
+  btn.disabled = true; btn.textContent = 'Procesando...';
+  setTimeout(() => {
+    btn.disabled = false; btn.textContent = 'Pagar';
+    if (paymentMethod === 'contado') {
+      document.getElementById('pay-a-amount').textContent = fmt(selectedProgram.arancel);
+      ['card-name2','card-number2','card-expiry2','card-cvv2'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('pay-a-alert').classList.remove('visible');
       goTo('screen-pay-arancel');
     } else {
-      setupPAC(); goTo('screen-pac');
+      setupPAC();
+      goTo('screen-pac');
     }
-  },1500);
+  }, 1500);
 }
 
-// PAY ARANCEL
-function payArancel(){
-  const n=document.getElementById('card-name2').value.trim(),num=document.getElementById('card-number2').value.trim(),
-        exp=document.getElementById('card-expiry2').value.trim(),cvv=document.getElementById('card-cvv2').value.trim();
-  if(!n||!num||!exp||!cvv) return;
-  const btn=document.getElementById('btn-pay-arancel'); btn.disabled=true; btn.textContent='Procesando...';
-  setTimeout(()=>{ btn.disabled=false; btn.textContent='Pagar'; showSuccess('contado'); },1500);
+// ─── PAY ARANCEL (CONTADO) ────────────────────────────────────────────────────
+function payArancel() {
+  const n   = document.getElementById('card-name2').value.trim();
+  const num = document.getElementById('card-number2').value.trim();
+  const exp = document.getElementById('card-expiry2').value.trim();
+  const cvv = document.getElementById('card-cvv2').value.trim();
+  if (!n || !num || !exp || !cvv) {
+    document.getElementById('pay-a-alert-text').textContent = 'Completa todos los campos de la tarjeta.';
+    document.getElementById('pay-a-alert').classList.add('visible'); return;
+  }
+  document.getElementById('pay-a-alert').classList.remove('visible');
+  const btn = document.getElementById('btn-pay-arancel');
+  btn.disabled = true; btn.textContent = 'Procesando...';
+  setTimeout(() => { btn.disabled = false; btn.textContent = 'Pagar'; showSuccess('contado'); }, 1500);
 }
 
-// PAC
-function setupPAC(){
-  const p=selectedProgram;
-  document.getElementById('pac-program').textContent=p.name;
-  // Precargar cuotas seleccionadas en el formulario
-  const sel=document.getElementById('pac-cuotas');
-  sel.innerHTML='<option value="">— Selecciona cuotas —</option>';
-  for(let i=2;i<=p.maxCuotas;i++) sel.innerHTML+=`<option value="${i}">${i} cuotas — ${fmt(Math.ceil(p.arancel/i))}/mes</option>`;
-  if(selectedCuotas){ sel.value=selectedCuotas; onPacCuotasChange(); }
-  else { document.getElementById('pac-summary').classList.add('hidden'); }
-  ['pac-banco','pac-tipo-cuenta'].forEach(id=>document.getElementById(id).value='');
-  ['pac-num-cuenta','pac-rut-titular'].forEach(id=>document.getElementById(id).value='');
+// ─── PAC FLOW ─────────────────────────────────────────────────────────────────
+function setupPAC() {
+  pacSubStep = 1; pacMedio = null; selectedBank = null;
+  showPACStep(1);
+  document.getElementById('pac-product-name').textContent = selectedProgram.name;
+  document.getElementById('pac-rut').value  = currentUser ? currentUser.rut : '';
+  document.getElementById('pac-pass').value = '';
   document.getElementById('pac-alert').classList.remove('visible');
-}
-function onPacCuotasChange(){
-  const n=parseInt(document.getElementById('pac-cuotas').value);
-  if(!n){document.getElementById('pac-summary').classList.add('hidden');return;}
-  const p=selectedProgram, cv=Math.ceil(p.arancel/n);
-  document.getElementById('pac-s-arancel').textContent=fmt(p.arancel);
-  document.getElementById('pac-s-cuotas').textContent=n+' cuotas mensuales';
-  document.getElementById('pac-s-valor').textContent=fmt(cv)+'/mes';
-  document.getElementById('pac-summary').classList.remove('hidden');
-}
-function inscribirPAC(){
-  const cuotas=document.getElementById('pac-cuotas').value, banco=document.getElementById('pac-banco').value,
-        tipo=document.getElementById('pac-tipo-cuenta').value, num=document.getElementById('pac-num-cuenta').value.trim(),
-        rut=document.getElementById('pac-rut-titular').value.trim();
-  if(!cuotas||!banco||!tipo||!num||!rut){document.getElementById('pac-alert-text').textContent='Completa todos los campos.';document.getElementById('pac-alert').classList.add('visible');return;}
-  document.getElementById('pac-alert').classList.remove('visible');
-  const btn=document.getElementById('btn-pac'); btn.disabled=true; btn.textContent='Inscribiendo...';
-  setTimeout(()=>{ btn.disabled=false; btn.textContent='Inscribir PAC/PAT'; showSuccess('cuotas',parseInt(cuotas),banco); },1500);
+  refreshPACBtn();
 }
 
-// SUCCESS
-function showSuccess(method,cuotas,banco){
-  const p=selectedProgram;
-  let h=`<div class="sd-row"><span class="sd-label">Alumno</span><span class="sd-value">${currentUser.name}</span></div>
+function showPACStep(step) {
+  ['pac-step1','pac-step2','pac-step3','pac-step-tarjeta'].forEach(id =>
+    document.getElementById(id).classList.add('hidden'));
+  const map = { 1:'pac-step1', 2:'pac-step2', 3:'pac-step3', tarjeta:'pac-step-tarjeta' };
+  const el  = document.getElementById(map[step]);
+  if (el) { el.classList.remove('hidden'); el.classList.add('anim-in'); }
+}
+
+function pacBack() {
+  if (pacSubStep === 1)         { goTo('screen-pay-matricula'); return; }
+  if (pacSubStep === 2)         { pacSubStep = 1;        showPACStep(1); return; }
+  if (pacSubStep === 3)         { pacSubStep = 2;        showPACStep(2); return; }
+  if (pacSubStep === 'tarjeta') { pacSubStep = 1;        showPACStep(1); return; }
+}
+
+function pacChoose(medio) {
+  pacMedio = medio;
+  if (medio === 'pac') {
+    pacSubStep = 2; showPACStep(2);
+  } else {
+    pacSubStep = 'tarjeta';
+    const cv = Math.ceil(selectedProgram.arancel / (selectedCuotas || 1));
+    document.getElementById('pac-tarjeta-amount').textContent = fmt(cv) + '/mes';
+    ['pac-card-number','pac-card-name','pac-card-expiry','pac-card-cvv'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('pac-tarjeta-alert').classList.remove('visible');
+    showPACStep('tarjeta');
+  }
+}
+
+function pacSelectBank(bank, color) {
+  selectedBank = bank; selectedBankColor = color;
+  pacSubStep = 3;
+  document.getElementById('pac-bank-display').innerHTML =
+    `<span style="color:${color};font-weight:800;font-size:1rem">▪</span>&nbsp;<span>${bank}</span>`;
+  document.getElementById('pac-rut').value  = currentUser ? currentUser.rut : '';
+  document.getElementById('pac-pass').value = '';
+  document.getElementById('pac-alert').classList.remove('visible');
+  refreshPACBtn();
+  showPACStep(3);
+}
+
+function refreshPACBtn() {
+  const rut  = (document.getElementById('pac-rut').value  || '').trim();
+  const pass = (document.getElementById('pac-pass').value || '').trim();
+  const btn  = document.getElementById('btn-pac-continue');
+  if (rut && pass) { btn.classList.remove('off'); btn.classList.add('on'); }
+  else             { btn.classList.remove('on');  btn.classList.add('off'); }
+}
+
+function inscribirPAC() {
+  const btn = document.getElementById('btn-pac-continue');
+  if (btn.classList.contains('off')) return;
+  const rut  = document.getElementById('pac-rut').value.trim();
+  const pass = document.getElementById('pac-pass').value.trim();
+  if (!rut || !pass) {
+    document.getElementById('pac-alert-text').textContent = 'Completa todos los campos.';
+    document.getElementById('pac-alert').classList.add('visible'); return;
+  }
+  document.getElementById('pac-alert').classList.remove('visible');
+  btn.classList.remove('on'); btn.classList.add('off'); btn.textContent = 'Inscribiendo...';
+  setTimeout(() => { btn.textContent = 'Continuar'; showSuccess('cuotas'); }, 1500);
+}
+
+function payPACTarjeta() {
+  const n   = document.getElementById('pac-card-name').value.trim();
+  const num = document.getElementById('pac-card-number').value.trim();
+  const exp = document.getElementById('pac-card-expiry').value.trim();
+  const cvv = document.getElementById('pac-card-cvv').value.trim();
+  if (!n || !num || !exp || !cvv) {
+    document.getElementById('pac-tarjeta-alert-text').textContent = 'Completa todos los campos.';
+    document.getElementById('pac-tarjeta-alert').classList.add('visible'); return;
+  }
+  document.getElementById('pac-tarjeta-alert').classList.remove('visible');
+  const btn = document.getElementById('btn-pac-tarjeta');
+  btn.classList.remove('on'); btn.classList.add('off'); btn.textContent = 'Procesando...';
+  setTimeout(() => { btn.textContent = 'Pagar'; showSuccess('cuotas-tarjeta'); }, 1500);
+}
+
+// ─── SUCCESS ──────────────────────────────────────────────────────────────────
+function showSuccess(method) {
+  const p = selectedProgram;
+  let html = `
+    <div class="sd-row"><span class="sd-label">Alumno</span><span class="sd-value">${currentUser.name}</span></div>
     <div class="sd-row"><span class="sd-label">RUT</span><span class="sd-value">${currentUser.rut}</span></div>
     <div class="sd-row"><span class="sd-label">Programa</span><span class="sd-value">${p.name}</span></div>
     <div class="sd-row"><span class="sd-label">Matrícula</span><span class="sd-value" style="color:var(--green)">✓ ${fmt(p.matricula)}</span></div>`;
-  if(method==='contado'){
-    h+=`<div class="sd-row"><span class="sd-label">Arancel</span><span class="sd-value" style="color:var(--green)">✓ ${fmt(p.arancel)} (contado)</span></div>`;
-    document.getElementById('success-msg').textContent='Matrícula y arancel pagados exitosamente. Recibirás un email de confirmación.';
+
+  if (method === 'contado') {
+    html += `<div class="sd-row"><span class="sd-label">Arancel</span><span class="sd-value" style="color:var(--green)">✓ ${fmt(p.arancel)} al contado</span></div>`;
+    document.getElementById('success-msg').textContent = 'Matrícula y arancel pagados exitosamente. Recibirás un email de confirmación.';
+  } else if (method === 'cuotas') {
+    const cv = Math.ceil(p.arancel / selectedCuotas);
+    html += `<div class="sd-row"><span class="sd-label">Arancel</span><span class="sd-value">${selectedCuotas} cuotas de ${fmt(cv)}/mes</span></div>`;
+    html += `<div class="sd-row"><span class="sd-label">PAC</span><span class="sd-value" style="color:var(--green)">✓ Inscrito — ${selectedBank}</span></div>`;
+    document.getElementById('success-msg').textContent = `Matrícula pagada y PAC inscrito en ${selectedBank}. Se debitarán ${selectedCuotas} cuotas de ${fmt(cv)}/mes.`;
   } else {
-    const cv=Math.ceil(p.arancel/cuotas);
-    h+=`<div class="sd-row"><span class="sd-label">Arancel</span><span class="sd-value">${cuotas} cuotas de ${fmt(cv)}</span></div>`;
-    h+=`<div class="sd-row"><span class="sd-label">PAC/PAT</span><span class="sd-value" style="color:var(--green)">✓ Inscrito</span></div>`;
-    h+=`<div class="sd-row"><span class="sd-label">Banco</span><span class="sd-value">${banco}</span></div>`;
-    document.getElementById('success-msg').textContent=`Matrícula pagada y PAC/PAT inscrito. Se debitarán ${cuotas} cuotas de ${fmt(cv)}/mes.`;
+    const cv = Math.ceil(p.arancel / selectedCuotas);
+    html += `<div class="sd-row"><span class="sd-label">Arancel</span><span class="sd-value">${selectedCuotas} cuotas de ${fmt(cv)}/mes</span></div>`;
+    html += `<div class="sd-row"><span class="sd-label">Pago</span><span class="sd-value" style="color:var(--green)">✓ Tarjeta inscrita</span></div>`;
+    document.getElementById('success-msg').textContent = `Matrícula pagada. Se cargará ${fmt(cv)} mensualmente a tu tarjeta.`;
   }
-  document.getElementById('success-details').innerHTML=h;
+  document.getElementById('success-details').innerHTML = html;
   document.getElementById('success-overlay').classList.add('visible');
 }
-function resetAll(){
+
+function resetAll() {
   document.getElementById('success-overlay').classList.remove('visible');
-  selectedProgram=null;paymentMethod=null;
-  document.getElementById('f-tipo').value='';
+  selectedProgram = null; paymentMethod = null; selectedCuotas = null; selectedBank = null;
+  document.getElementById('f-tipo').value = '';
   document.getElementById('fg-producto').classList.add('hidden');
-  document.getElementById('f-contrato').value='';
+  document.getElementById('f-contrato').value = '';
   document.getElementById('btn-continuar-wrap').classList.add('hidden');
-  hideInfo();
+  document.getElementById('fg-cuotas-form').classList.add('hidden');
+  document.getElementById('fg-valor-cuota').classList.add('hidden');
+  hideFields();
   goTo('screen-form');
 }
 
-// FORMATTING
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('input-pass').addEventListener('keypress',e=>{if(e.key==='Enter')handleLogin();});
-  document.getElementById('input-rut').addEventListener('keypress',e=>{if(e.key==='Enter')document.getElementById('input-pass').focus();});
-  ['card-number','card-number2'].forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    el.addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'').substring(0,16);v=v.replace(/(\d{4})/g,'$1 ').trim();e.target.value=v;});
+// ─── INPUT FORMATTERS ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('input-rut').addEventListener('keypress', e => {
+    if (e.key === 'Enter') document.getElementById('input-pass').focus();
   });
-  ['card-expiry','card-expiry2'].forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    el.addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'').substring(0,4);if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2);e.target.value=v;});
+  document.getElementById('input-pass').addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  ['card-number','card-number2','pac-card-number'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    el.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').substring(0,16);
+      v = v.replace(/(\d{4})(?=\d)/g,'$1 ');
+      e.target.value = v;
+    });
+  });
+
+  ['card-expiry','card-expiry2','pac-card-expiry'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    el.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').substring(0,4);
+      if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2);
+      e.target.value = v;
+    });
+  });
+
+  ['pac-rut','pac-pass'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    el.addEventListener('input', refreshPACBtn);
   });
 });
 </script>
